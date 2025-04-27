@@ -10,3 +10,14 @@ function createGameBoard () {
         currentPlayer: "X"
     };
 }
+
+function playerONe () {
+    return "X";
+}
+
+function playerOTwo () {
+    return "O";
+}
+
+function gamePlay () {
+}
