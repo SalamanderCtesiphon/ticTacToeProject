@@ -1,23 +1,5 @@
-// Tic Tac Toe Game Implementation
+// Tic Tac Toe Game Implementation using factory functions
 
-function createGameBoard () {
-    return {
-        board: [
-            ["", "", ""],
-            ["", "", ""],
-            ["", "", ""]
-        ],
-        currentPlayer: "X"
-    };
-}
-
-function playerONe () {
-    return "X";
-}
-
-function playerOTwo () {
-    return "O";
-}
-
-function gamePlay () {
+function createGame() {
+    
 }
