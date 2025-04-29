@@ -3,11 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="app.js" defer></script>
+    <!-- <script src="app.js" defer></script> -->
     <link rel="stylesheet" href="style.css">
     <title>Tic Tac Toe Game</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Tic Tac Toe</h1>
+        <div class="board" id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        <button id="resetButton">Reset Game</button>
+        <div class="status" id="status">Player X's turn</div>
+        <div class="scoreboard">
+            <div>Player X: <span id="scoreX">0</span></div>
+            <div>Player O: <span id="scoreO">0</span></div>
+            <div>Draws: <span id="scoreDraw">0</span></div>
+        </div>
+        <div class="settings">
+            <label for="playerX">Player X Name:</label>
+            <input type="text" id="playerX" value="Player X">
+            <label for="playerO">Player O Name:</label>
+            <input type="text" id="playerO" value="Player O">
+            <button id="updateNames">Update Names</button>
+        </div>
+        <div class="theme-toggle">
+            <label for="theme">Select Theme:</label>
+            <select id="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>
+        <div class="about">
+            <p>Created by <a href="" target="_blank">Your Name</a></p>
+            <p>Version 1.0</p>
+            <p>Last updated: October 2023</p>
+        </div>
+    </div>
+    <script>
+        // JavaScript code for the Tic Tac Toe game will go here
+        // This is just a placeholder comment
+        document.addEventListener('DOMContentLoaded', () => {
+            const cells = document.querySelectorAll('.cell');
+            const statusDisplay = document.getElementById('status');
+            const resetButton = document.getElementById('resetButton');
+            const scoreX = document.getElementById('scoreX');
+            const scoreO = document.getElementById('scoreO');   
+            const scoreDraw = document.getElementById('scoreDraw');
+            const playerXInput = document.getElementById('playerX');
+            const playerOInput = document.getElementById('playerO');
+            const updateNamesButton = document.getElementById('updateNames');
+            const themeSelect = document.getElementById('theme');
+            let currentPlayer = 'X';
+            let gameActive = true;
+            let scores = { X: 0, O: 0, Draw: 0 };
+            const winningConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            const checkWin = () => {
+                return winningConditions.some(condition => {
+                    return condition.every(index => {
+                        return cells[index].textContent === currentPlayer;
+                    });
+                });
+            };
+            const checkDraw = () => {
+                return [...cells].every(cell => cell.textContent);
+            };
+            const updateStatus = () => {
+                if (checkWin()) {
+                    statusDisplay.textContent = `Player ${currentPlayer} wins!`;
+                    scores[currentPlayer]++;
+                    updateScores();
+                    gameActive = false;
+                } else if (checkDraw()) {
+                    statusDisplay.textContent = 'It\'s a draw!';
+                    scores.Draw++;
+                    updateScores();
+                    gameActive = false;
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+                }
+            };
+            const updateScores = () => {
+                scoreX.textContent = scores.X;
+                scoreO.textContent = scores.O;
+                scoreDraw.textContent = scores.Draw;
+            };
+            const resetGame = () => {
+                cells.forEach(cell => cell.textContent = '');
+                currentPlayer = 'X';
+                gameActive = true;
+                statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+            };
+            cells.forEach(cell => {
+                cell.addEventListener('click', () => {
+                    if (cell.textContent || !gameActive) return;
+                    cell.textContent = currentPlayer;
+                    updateStatus();
+                });
+            });
+            resetButton.addEventListener('click', resetGame);
+            updateNamesButton.addEventListener('click', () => {
+                const playerXName = playerXInput.value || 'Player X';
+                const playerOName = playerOInput.value || 'Player O';
+                document.querySelector('.scoreboard div:nth-child(1)').textContent = `${playerXName}: `;
+                document.querySelector('.scoreboard div:nth-child(2)').textContent = `${playerOName}: `;
+            });
+            themeSelect.addEventListener('change', () => {
+                document.body.className = themeSelect.value;
+            });
+            // Initialize scores
+            updateScores();
+        });
+    </script>
+    <style>
+        body.light {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        body.dark {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+        .status, .scoreboard, .settings, .theme-toggle, .about {
+            margin-top: 20px;
+        }
+        .settings input, .theme-toggle select {
+            margin: 5px;
+        }
+        .about p {
+            margin: 5px 0;
+        }
+        .about a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .about a:hover {
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .scoreboard div {
+            margin: 5px 0;
+        }
+        .theme-toggle {
+            margin-top: 20px;
+        }
+        .settings {
+            margin-top: 20px;
+        }
+        .settings label {
+            margin-right: 10px;
+        }
+        .settings input {
+            width: 150px;
+        }
+        .settings button {
+            margin-left: 10px;
+        }
+        .theme-toggle select {
+            padding: 5px;
+        }
+        .about {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .about a {
+            color: inherit;
+        }
+        .about a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // Additional JavaScript code can be added here if needed
+    </script>
     
 </body>
 </html>
