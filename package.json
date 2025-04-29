@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SalamanderCtesiphon/ticTacToeProject/issues"
   },
-  "homepage": "https://github.com/SalamanderCtesiphon/ticTacToeProject#readme"
+  "homepage": "https://github.com/SalamanderCtesiphon/ticTacToeProject#readme",
+  "dependencies": {
+    "moment": "^2.30.1"
+  }
 }
