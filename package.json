@@ -2,7 +2,7 @@
   "name": "tictactoeproject",
   "version": "1.0.0",
   "description": "website created using github copilot",
-  "main": "app.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
